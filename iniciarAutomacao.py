@@ -1,10 +1,14 @@
 import criarPlanilhaImagem, criarPlanilhaSku, criarPlanilhaEspecificacoes, \
-    manipularPlanilhas.salvarAjustar as openAndSave
+    salvarAjustar as openAndSave
 
 
 if __name__ == "__main__":
     planilha = openAndSave.gerarDataFrame(openAndSave.escolherArquivo())
-    opcao = int(input("---Escolha---\n"
+    criarPlanilhaSku.iniciar(planilha)
+    criarPlanilhaEspecificacoes.iniciar(planilha)
+    criarPlanilhaImagem.iniciar(planilha)
+
+    '''opcao = int(input("---Escolha---\n"
                       "[0] - Todas\n"
                       "[1] - Produtos e SKU\n"
                       "[2] - Especificações\n"
@@ -19,4 +23,4 @@ if __name__ == "__main__":
     elif opcao == 2:
         criarPlanilhaEspecificacoes.iniciar(planilha)
     elif opcao == 3:
-        criarPlanilhaImagem.iniciar(planilha)
+        criarPlanilhaImagem.iniciar(planilha)'''

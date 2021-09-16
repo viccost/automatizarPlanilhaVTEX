@@ -1,5 +1,5 @@
 import pandas as pd
-from manipularPlanilhas.salvarAjustar import escolherArquivo, gerarDataFrame, salvarArquivo
+from salvarAjustar import escolherArquivo, gerarDataFrame, salvarArquivo
 
 # --------------------- Planilha Especificações
 
