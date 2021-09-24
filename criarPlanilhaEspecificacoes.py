@@ -72,9 +72,9 @@ def estruturarPlanilhaVtex():
 
 def iniciar(planilha: pd.DataFrame):
     chamarPreencherMapaPlanilhaEspecificacoes(planilha)
-    salvarArquivo(estruturarPlanilhaVtex(), nomeArquivo, formatar=False)
+    salvarArquivo(estruturarPlanilhaVtex(), nomeArquivo, 'xls', formatar=False)
 
 
 if __name__ == '__main__':
     chamarPreencherMapaPlanilhaEspecificacoes(gerarDataFrame(escolherArquivo()))
-    salvarArquivo(estruturarPlanilhaVtex(), nomeArquivo)
+    salvarArquivo(estruturarPlanilhaVtex(), nomeArquivo, 'xls')

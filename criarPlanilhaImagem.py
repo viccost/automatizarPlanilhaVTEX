@@ -46,7 +46,7 @@ def chamarPreencherMapaPlanilhaImagens(planilha: pd.DataFrame):
 def estruturarPlanilhaVtex():
     """Transforma as informações presentes no dicionário de imagens em listas para transformá-las em linhas e alimentar
     o DataFrame."""
-    vtxURL, vtxNomeImagem, vtxTextoImagem, vtxLabel, vtxIdSKU = ([] for i in range(5))
+    vtxURL, vtxNomeImagem, vtxTextoImagem, vtxLabel, vtxIdSKU = ([] for _ in range(5))
     vtxCodigoreferenciaSKU = vtxIdSKU
     for key in mapaPlanilhaImagens.keys():
         vtxURL.extend(str(n) for n in mapaPlanilhaImagens[key]['Link'])
@@ -64,9 +64,9 @@ def estruturarPlanilhaVtex():
 
 def iniciar(planilha: pd.DataFrame):
     chamarPreencherMapaPlanilhaImagens(planilha)
-    salvarArquivo(estruturarPlanilhaVtex(), nomeArquivo)
+    salvarArquivo(estruturarPlanilhaVtex(), nomeArquivo, 'xls')
 
 
 if __name__ == '__main__':
     chamarPreencherMapaPlanilhaImagens(gerarDataFrame(escolherArquivo()))
-    salvarArquivo(estruturarPlanilhaVtex(), nomeArquivo)
+    salvarArquivo(estruturarPlanilhaVtex(), nomeArquivo, 'xls')
