@@ -1,4 +1,8 @@
+import time
+
 import pandas as pd
+import progressbar as progressbar
+from tqdm import tqdm
 from salvarAjustar import escolherArquivo, gerarDataFrame, salvarArquivo
 
 # --------------------- Planilha Imagens
@@ -59,7 +63,25 @@ def estruturarPlanilhaVtex():
         {'URL': vtxURL, 'NomeImagem': vtxNomeImagem, 'TextoImagem': vtxTextoImagem, 'Label': vtxLabel,
          'IdSku': vtxIdSKU,
          'CodigoreferenciaSKU': vtxCodigoreferenciaSKU})
+    urlStatus = checarLinkImagens(dataFrameVTEX)
+    dataFrameVTEX['Status Imagem'] = urlStatus
     return dataFrameVTEX
+
+
+def checarLinkImagens(planilhaImagens):
+    import requests
+    urlStatus = []
+    numeroUrls = len(planilhaImagens['URL'])
+    with tqdm(total=numeroUrls) as barraProgresso:
+        for i in range(numeroUrls):
+            barraProgresso.update(1)
+            url = planilhaImagens['URL'][i]
+            statusCode = requests.get(url).status_code
+            if 300 > statusCode >= 200:
+                urlStatus.append("Online")
+            else:
+                urlStatus.append("Offline")
+    return urlStatus
 
 
 def iniciar(planilha: pd.DataFrame):
