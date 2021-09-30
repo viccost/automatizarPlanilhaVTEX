@@ -1,7 +1,5 @@
 import time
-
 import pandas as pd
-import progressbar as progressbar
 from tqdm import tqdm
 from salvarAjustar import escolherArquivo, gerarDataFrame, salvarArquivo
 
