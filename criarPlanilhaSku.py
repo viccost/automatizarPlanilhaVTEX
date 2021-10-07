@@ -16,7 +16,7 @@ def preencherMapaPlanilhaProdutos(camposPlanilhaUsuario):
                                 "Nome": camposPlanilhaUsuario[8], "Descricao": camposPlanilhaUsuario[9],
                                 "Meta": camposPlanilhaUsuario[10], "IdCat": camposPlanilhaUsuario[11],
                                 "NomeCat": camposPlanilhaUsuario[12], "IdMarca": camposPlanilhaUsuario[13],
-                                "Marca": camposPlanilhaUsuario[14]}
+                                "Marca": camposPlanilhaUsuario[14], "URL": camposPlanilhaUsuario[19]}
 
 
 def chamarPreencherMapaPlanilhaProdutos(planilha: pd.DataFrame):
@@ -24,7 +24,7 @@ def chamarPreencherMapaPlanilhaProdutos(planilha: pd.DataFrame):
     sku """
     for index, valor in planilha.iloc[:, 0].items():
         preencherMapaPlanilhaProdutos(
-            [planilha.iloc[index, n] for n in range(0, 15)])  # mandando uma lista com os campos
+            [planilha.iloc[index, n] for n in range(0, 20)])  # mandando uma lista com os campos
         # alterar esse tipo de identificação de coluna
 
 
@@ -67,7 +67,7 @@ def estruturarPlanilhaVtex():
         vtxMultUnidade.append("1")
         vtxUnidadeMedida.append("un")
         vtxValorFidelidade.append("")
-        vtxTextLink.append("{setar}")
+        vtxTextLink.append(mapaPlanilhaPlanSKU[key]['URL'])
 
     dataFrameVtex = pd.DataFrame({'_SkuId(Não alterável': vtxSkuId, '_NomeSku': vtxNomeSku,
                                   '_AtivarSkuSePossível': vtxAtivarSkuSePossivel,

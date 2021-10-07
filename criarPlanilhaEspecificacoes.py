@@ -7,12 +7,10 @@ mapaPlanilhaEspec = {}
 nomeArquivo = "VTEX Espec built in Python"
 
 
-def preencherMapaPlanilhaEspecificacoes(sku: int, nomePrd: str, infPrd: str, infTec: str, infFor: str, descPrd: str,
+def preencherMapaPlanilhaEspecificacoes(sku: int, nomePrd: str, infTec: str, infFor: str, descPrd: str,
                                         videoPrd: str):
     """Cria um dicionário com SKU como chave, com os campos necessários para o preenchimento da planilha de imagens"""
     infos = list()
-    if str(infPrd) != 'nan':
-        infos.append(['50', infPrd, 'Informações do Produto'])
     if str(infTec) != 'nan':
         infos.append(['51', infTec, 'Informações Técnicas'])
     if str(infFor) != 'nan':
@@ -31,10 +29,9 @@ def chamarPreencherMapaPlanilhaEspecificacoes(planilha: pd.DataFrame):
     try:
         for index, valor in planilha.iloc[:, 0].items():
             preencherMapaPlanilhaEspecificacoes(planilha.iloc[index, 0], planilha.iloc[index, 8],
-                                                planilha.iloc[index, 15],
-                                                planilha.iloc[index, 16], planilha.iloc[index, 17],
-                                                planilha.iloc[index, 18],
-                                                planilha.iloc[index, 19])
+                                                planilha.iloc[index, 15], planilha.iloc[index, 16],
+                                                planilha.iloc[index, 17],
+                                                planilha.iloc[index, 18])
             # alterar esse tipo de identificação de coluna
     except IndexError:
         print("Cheque se a sua planilha tem todas as colunas necessárias!")
