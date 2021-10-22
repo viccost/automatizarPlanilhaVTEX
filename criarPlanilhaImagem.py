@@ -90,5 +90,11 @@ def iniciar(planilha: pd.DataFrame):
 
 
 if __name__ == '__main__':
-    chamarPreencherMapaPlanilhaImagens(gerarDataFrame(escolherArquivo()))
-    salvarArquivo(estruturarPlanilhaVtex(), nomeArquivo, 'xls')
+    #chamarPreencherMapaPlanilhaImagens(gerarDataFrame(escolherArquivo()))
+    #salvarArquivo(estruturarPlanilhaVtex(), nomeArquivo, 'xls')
+    # só pra checar a URL
+    planilha = gerarDataFrame(escolherArquivo())
+    urlStatus = checarLinkImagens(planilha)
+    planilha['Checar URL'] = urlStatus
+    salvarArquivo(planilha, "teste2", 'xls')
+
