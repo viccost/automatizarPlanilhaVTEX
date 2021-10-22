@@ -42,7 +42,7 @@ def gerarDataFrame(file_path):
 def salvarArquivo(planilha: pd.DataFrame, nome: str, formato: str, formatar=True):
     """Recebe um DataFrame e nome do arquivo para salvá-lo como .xlsx. Ajusta automaticamente o tamanho das colunas.
     Index do DataFrame está setado como falso. E os campos em branco estão mantidos em branco sem alteração."""
-    caminhoDesktop = r'C:\Users\Victor\Desktop'
+    caminhoDesktop = r'C:\Users\victo\Desktop'
 
     def checarCaminho():
         from os import path

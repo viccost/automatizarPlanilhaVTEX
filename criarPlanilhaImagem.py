@@ -1,7 +1,5 @@
 import time
-
 import pandas as pd
-import progressbar as progressbar
 from tqdm import tqdm
 from salvarAjustar import escolherArquivo, gerarDataFrame, salvarArquivo
 
@@ -41,9 +39,9 @@ def chamarPreencherMapaPlanilhaImagens(planilha: pd.DataFrame):
     chamando o método responsável por preencher o dicionário para estruturar a planilha de imagens."""
     for index, valor in planilha.iloc[:, 0].items():
         preencherMapaPlanilhaImagens(planilha.iloc[index, 0],  # url
-                                     planilha.iloc[index, 20],  # prdUrl
+                                     planilha.iloc[index, 19],  # prdUrl
                                      planilha.iloc[index, 14],  # marca
-                                     planilha.iloc[index, 21])  # numImagens
+                                     planilha.iloc[index, 20])  # numImagens
         # alterar esse tipo de identificação de coluna?
 
 
@@ -81,6 +79,7 @@ def checarLinkImagens(planilhaImagens):
                 urlStatus.append("Online")
             else:
                 urlStatus.append("Offline")
+    print()
     return urlStatus
 
 
