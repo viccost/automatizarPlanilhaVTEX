@@ -39,9 +39,9 @@ def chamarPreencherMapaPlanilhaImagens(planilha: pd.DataFrame):
     chamando o método responsável por preencher o dicionário para estruturar a planilha de imagens."""
     for index, valor in planilha.iloc[:, 0].items():
         preencherMapaPlanilhaImagens(planilha.iloc[index, 0],  # url
-                                     planilha.iloc[index, 19],  # prdUrl
-                                     planilha.iloc[index, 14],  # marca
-                                     planilha.iloc[index, 20])  # numImagens
+                                     planilha.iloc[index, 20],  # prdUrl
+                                     planilha.iloc[index, 15],  # marca
+                                     planilha.iloc[index, 21])  # numImagens
         # alterar esse tipo de identificação de coluna?
 
 
@@ -72,13 +72,16 @@ def checarLinkImagens(planilhaImagens):
     numeroUrls = len(planilhaImagens['URL'])
     with tqdm(total=numeroUrls) as barraProgresso:
         for i in range(numeroUrls):
-            barraProgresso.update(1)
-            url = planilhaImagens['URL'][i]
-            statusCode = requests.get(url).status_code
-            if 300 > statusCode >= 200:
-                urlStatus.append("Online")
-            else:
-                urlStatus.append("Offline")
+            try:
+                barraProgresso.update(1)
+                url = planilhaImagens['URL'][i]
+                statusCode = requests.get(url).status_code
+                if 300 > statusCode >= 200:
+                    urlStatus.append("Online")
+                else:
+                    urlStatus.append("Offline")
+            except requests.exceptions.MissingSchema:
+                urlStatus.append("URL Inválida")
     print()
     return urlStatus
 
@@ -90,13 +93,10 @@ def iniciar(planilha: pd.DataFrame):
 
 if __name__ == '__main__':
     # Seguindo o modelo Python
-
-    # chamarPreencherMapaPlanilhaImagens(gerarDataFrame(escolherArquivo()))
-    # salvarArquivo(estruturarPlanilhaVtex(), nomeArquivo, 'xls')
-
+    chamarPreencherMapaPlanilhaImagens(gerarDataFrame(escolherArquivo()))
+    salvarArquivo(estruturarPlanilhaVtex(), nomeArquivo, 'xls')
     # Só pra checar a URL
-    planilha_ = gerarDataFrame(escolherArquivo())
-    urlStatus_ = checarLinkImagens(planilha_)
-    planilha_['Checar URL'] = urlStatus_
-    salvarArquivo(planilha_, "Py Imagem Check", 'xls')
-
+    # planilha_ = gerarDataFrame(escolherA'rquivo())
+    # urlStatus_ = checarLinkImagens(planilha_)
+    # planilha_['Checar URL'] = urlStatus_
+    # salvarArquivo(planilha_, "Py Imagem Check", 'xls')

@@ -7,7 +7,7 @@ mapaPlanilhaEspec = {}
 nomeArquivo = "VTEX Espec built in Python"
 
 
-def preencherMapaPlanilhaEspecificacoes(sku: int, nomePrd: str, infTec: str, infFor: str, descPrd: str,
+def preencherMapaPlanilhaEspecificacoes(sku: int, id: int, nomePrd: str, infTec: str, infFor: str, descPrd: str,
                                         videoPrd: str):
     """Cria um dicionário com SKU como chave, com os campos necessários para o preenchimento da planilha de imagens"""
     infos = list()
@@ -20,18 +20,21 @@ def preencherMapaPlanilhaEspecificacoes(sku: int, nomePrd: str, infTec: str, inf
     if str(videoPrd) != 'nan':
         infos.append(['53', videoPrd, 'Vídeo do Produto'])
 
-    mapaPlanilhaEspec[sku] = {'Nome Produto': nomePrd, 'Informações': infos}
+    mapaPlanilhaEspec[sku] = {'Nome Produto': nomePrd, 'Informações': infos, 'IdProduto': id}
 
 
 def chamarPreencherMapaPlanilhaEspecificacoes(planilha: pd.DataFrame):
     """Essa função recebe um DataFrame e percorre as suas linhas, iniciando o mapeamento da planilha de especificações,
     chamando o método responsável por preencher o dicionário para estruturar a planilha de especificações."""
     try:
+        # utilizando o iloc para poder naver pelas linhas e colunas
         for index, valor in planilha.iloc[:, 0].items():
-            preencherMapaPlanilhaEspecificacoes(planilha.iloc[index, 0], planilha.iloc[index, 8],
-                                                planilha.iloc[index, 15], planilha.iloc[index, 16],
-                                                planilha.iloc[index, 17],
-                                                planilha.iloc[index, 18])
+            # percorrendo todas as linhas
+            preencherMapaPlanilhaEspecificacoes(planilha.iloc[index, 0], planilha.iloc[index, 1],
+                                                planilha.iloc[index, 9],
+                                                planilha.iloc[index, 16], planilha.iloc[index, 17],
+                                                planilha.iloc[index, 18],
+                                                planilha.iloc[index, 19])
             # alterar esse tipo de identificação de coluna
     except IndexError:
         print("Cheque se a sua planilha tem todas as colunas necessárias!")
@@ -43,16 +46,15 @@ def estruturarPlanilhaVtex():
     NomeCampo, SKU_Procx, _IdProduto, _NomeProduto, IdCampo, ValorEspecificacao, NomeTipoCampo, CodigoEspecificacao = \
         ([] for i in range(8))
     for key in mapaPlanilhaEspec.keys():
-        linhasSKU = len(mapaPlanilhaEspec[key]['Informações'])
-        SKU_Procx.extend([key] * linhasSKU)
-        _NomeProduto.extend([mapaPlanilhaEspec[key]['Nome Produto']] * linhasSKU)
+        linhasDesseId = len(mapaPlanilhaEspec[key]['Informações'])
+        _IdProduto.extend([mapaPlanilhaEspec[key]['IdProduto']] * linhasDesseId)
+        _NomeProduto.extend([mapaPlanilhaEspec[key]['Nome Produto']] * linhasDesseId)
         for valor in mapaPlanilhaEspec[key]['Informações']:
             IdCampo.append(valor[0])
             NomeCampo.append(valor[2])
             ValorEspecificacao.append(valor[1])
             NomeTipoCampo.append("Texto Grande")
-    planilhaVTEX = {'PROCX': SKU_Procx,
-                    '_IdProduto (Não alterável)': _IdProduto,
+    planilhaVTEX = {'_IdProduto (Não alterável)': _IdProduto,
                     '_NomeProduto (Não alterável)': _NomeProduto,
                     'IdCampo (Não alterável)': IdCampo,
                     'NomeCampo (Não alterável)': NomeCampo,

@@ -8,15 +8,17 @@ nomeArquivo = "VTEX Produtos built in Python"
 
 
 def preencherMapaPlanilhaProdutos(camposPlanilhaUsuario):
+    """Define quais as colunas serão utilizadas para preencher o dicionário de cada produto, e seus respectivos
+    atributos."""
     sku = camposPlanilhaUsuario[0]
-    mapaPlanilhaPlanSKU[sku] = {"NomeSKU": camposPlanilhaUsuario[1],
-                                "EAN": camposPlanilhaUsuario[2], "Altura": camposPlanilhaUsuario[3],
-                                "Largura": camposPlanilhaUsuario[4], "Comprimento": camposPlanilhaUsuario[5],
-                                "Peso": (camposPlanilhaUsuario[6]), "CodFab": camposPlanilhaUsuario[7],
-                                "Nome": camposPlanilhaUsuario[8], "Descricao": camposPlanilhaUsuario[9],
-                                "Meta": camposPlanilhaUsuario[10], "IdCat": camposPlanilhaUsuario[11],
-                                "NomeCat": camposPlanilhaUsuario[12], "IdMarca": camposPlanilhaUsuario[13],
-                                "Marca": camposPlanilhaUsuario[14], "URL": camposPlanilhaUsuario[19]}
+    mapaPlanilhaPlanSKU[sku] = {"NomeSKU": camposPlanilhaUsuario[2],
+                                "EAN": camposPlanilhaUsuario[3], "Altura": camposPlanilhaUsuario[4],
+                                "Largura": camposPlanilhaUsuario[5], "Comprimento": camposPlanilhaUsuario[6],
+                                "Peso": (camposPlanilhaUsuario[7]), "CodFab": camposPlanilhaUsuario[8],
+                                "Nome": camposPlanilhaUsuario[9], "Descricao": camposPlanilhaUsuario[10],
+                                "Meta": camposPlanilhaUsuario[11], "IdCat": camposPlanilhaUsuario[12],
+                                "NomeCat": camposPlanilhaUsuario[13], "IdMarca": camposPlanilhaUsuario[14],
+                                "Marca": camposPlanilhaUsuario[15], "URL": camposPlanilhaUsuario[16]}
 
 
 def chamarPreencherMapaPlanilhaProdutos(planilha: pd.DataFrame):
@@ -39,11 +41,11 @@ def estruturarPlanilhaVtex():
 
     vtxAtivarSkuSePossivel = vtxExibeNoSite = vtxExibeSemEstoque = []
     # vazias
-    vtxValorFidelidade = vtxDataPrevisaoChegada = vtxIdProduto = vtxNomeComplemento = vtxProdutoAtivo = \
+    vtxValorFidelidade = vtxDataPrevisaoChegada = vtxNomeComplemento = vtxProdutoAtivo = \
         vtxDataLancamentoProduto = vtxPalavrasChave = vtxIdFornecedor = vtxKit = vtxIdDepartamento = \
         vtxNomeDepartamento = vtxPesoCubico = vtxAcessorios = vtxSimilares = vtxSugestoes = vtxMostrarJunto \
         = vtxAnexos = vtxPesoReal = vtxComprimentoReal = vtxAlturaReal = vtxLarguraReal = SkuAtivo = \
-        vtxCodigoReferenciaProduto = []
+        vtxCodigoReferenciaProduto = vtxIdProduto = []
 
     for key in mapaPlanilhaPlanSKU.keys():
         vtxSkuId.append(key)
