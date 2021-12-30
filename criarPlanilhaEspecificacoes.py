@@ -7,22 +7,6 @@ mapaPlanilhaEspec = {}
 nomeArquivo = "VTEX Espec built in Python"
 
 
-def preencherMapaPlanilhaEspecificacoes(sku: int, id: int, nomePrd: str, infTec: str, infFor: str, descPrd: str,
-                                        videoPrd: str):
-    """Cria um dicionário com SKU como chave, com os campos necessários para o preenchimento da planilha de imagens"""
-    infos = list()
-    if str(infTec) != 'nan':
-        infos.append(['51', infTec, 'Informações Técnicas'])
-    if str(infFor) != 'nan':
-        infos.append(['52', infFor, 'Informações do Fornecedor'])
-    if str(descPrd) != 'nan':
-        infos.append(['53', descPrd, 'Descrição do Produto'])
-    if str(videoPrd) != 'nan':
-        infos.append(['53', videoPrd, 'Vídeo do Produto'])
-
-    mapaPlanilhaEspec[sku] = {'Nome Produto': nomePrd, 'Informações': infos, 'IdProduto': id}
-
-
 def chamarPreencherMapaPlanilhaEspecificacoes(planilha: pd.DataFrame):
     """Essa função recebe um DataFrame e percorre as suas linhas, iniciando o mapeamento da planilha de especificações,
     chamando o método responsável por preencher o dicionário para estruturar a planilha de especificações."""
@@ -39,6 +23,22 @@ def chamarPreencherMapaPlanilhaEspecificacoes(planilha: pd.DataFrame):
     except IndexError:
         print("Cheque se a sua planilha tem todas as colunas necessárias!")
         exit()
+
+
+def preencherMapaPlanilhaEspecificacoes(sku: int, id: int, nomePrd: str, infTec: str, infFor: str, descPrd: str,
+                                        videoPrd: str):
+    """Cria um dicionário com SKU como chave, com os campos necessários para o preenchimento da planilha de imagens"""
+    infos = list()
+    if str(infTec) != 'nan':
+        infos.append(['51', infTec, 'Informações Técnicas'])
+    if str(infFor) != 'nan':
+        infos.append(['52', infFor, 'Informações do Fornecedor'])
+    if str(descPrd) != 'nan':
+        infos.append(['53', descPrd, 'Descrição do Produto'])
+    if str(videoPrd) != 'nan':
+        infos.append(['53', videoPrd, 'Vídeo do Produto'])
+
+    mapaPlanilhaEspec[sku] = {'Nome Produto': nomePrd, 'Informações': infos, 'IdProduto': id}
 
 
 def estruturarPlanilhaVtex():

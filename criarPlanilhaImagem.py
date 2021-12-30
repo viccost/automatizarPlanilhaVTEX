@@ -10,6 +10,17 @@ mapaPlanilhaImagens = {}  # deve ser encapsulado de alguma forma
 nomeArquivo = "VTEX Imagens built in Python"
 
 
+def chamarPreencherMapaPlanilhaImagens(planilha: pd.DataFrame):
+    """Essa função recebe um DataFrame e percorre as suas linhas, iniciando o mapeamento da planilha de imagens,
+    chamando o método responsável por preencher o dicionário para estruturar a planilha de imagens."""
+    for index, valor in planilha.iloc[:, 0].items():
+        preencherMapaPlanilhaImagens(planilha.iloc[index, 0],   # sku
+                                     planilha.iloc[index, 20],  # url produto
+                                     planilha.iloc[index, 15],  # marca
+                                     planilha.iloc[index, 21])  # numImagens
+        # alterar esse tipo de identificação de coluna?
+
+
 def preencherMapaPlanilhaImagens(sku: int, prdUrl: str, marca: str, numImagens: int):
     """Cria um dicionário com SKU como chave, com os campos necessários para o preenchimento da planilha de imagens"""
     textoImagensAux = []
@@ -32,17 +43,6 @@ def preencherMapaPlanilhaImagens(sku: int, prdUrl: str, marca: str, numImagens: 
     # outras    
     mapaPlanilhaImagens[sku] = {"TextoImagem": textoImagensAux, "Label": labelImagensAux,
                                 "Link": linkImagem}
-
-
-def chamarPreencherMapaPlanilhaImagens(planilha: pd.DataFrame):
-    """Essa função recebe um DataFrame e percorre as suas linhas, iniciando o mapeamento da planilha de imagens,
-    chamando o método responsável por preencher o dicionário para estruturar a planilha de imagens."""
-    for index, valor in planilha.iloc[:, 0].items():
-        preencherMapaPlanilhaImagens(planilha.iloc[index, 0],  # url
-                                     planilha.iloc[index, 20],  # prdUrl
-                                     planilha.iloc[index, 15],  # marca
-                                     planilha.iloc[index, 21])  # numImagens
-        # alterar esse tipo de identificação de coluna?
 
 
 def estruturarPlanilhaVtex():
