@@ -7,6 +7,15 @@ mapaPlanilhaPlanSKU = {}  # deve ser encapsulado de alguma forma
 nomeArquivo = "VTEX Produtos built in Python"
 
 
+def chamarPreencherMapaPlanilhaProdutos(planilha: pd.DataFrame):
+    """Responsável por receber um dataframe, percorrer suas linhas, e iniciar o mapeamento da planilha de produtos e
+    sku """
+    for index, valor in planilha.iloc[:, 0].items():
+        preencherMapaPlanilhaProdutos(
+            [planilha.iloc[index, n] for n in range(0, 21)])  # mandando uma lista com os campos
+        # alterar esse tipo de identificação de coluna
+
+
 def preencherMapaPlanilhaProdutos(camposPlanilhaUsuario):
     """Define quais as colunas serão utilizadas para preencher o dicionário de cada produto, e seus respectivos
     atributos."""
@@ -18,16 +27,7 @@ def preencherMapaPlanilhaProdutos(camposPlanilhaUsuario):
                                 "Nome": camposPlanilhaUsuario[9], "Descricao": camposPlanilhaUsuario[10],
                                 "Meta": camposPlanilhaUsuario[11], "IdCat": camposPlanilhaUsuario[12],
                                 "NomeCat": camposPlanilhaUsuario[13], "IdMarca": camposPlanilhaUsuario[14],
-                                "Marca": camposPlanilhaUsuario[15], "URL": camposPlanilhaUsuario[16]}
-
-
-def chamarPreencherMapaPlanilhaProdutos(planilha: pd.DataFrame):
-    """Responsável por receber um dataframe, percorrer suas linhas, e iniciar o mapeamento da planilha de produtos e
-    sku """
-    for index, valor in planilha.iloc[:, 0].items():
-        preencherMapaPlanilhaProdutos(
-            [planilha.iloc[index, n] for n in range(0, 20)])  # mandando uma lista com os campos
-        # alterar esse tipo de identificação de coluna
+                                "Marca": camposPlanilhaUsuario[15], "URL": camposPlanilhaUsuario[20]}
 
 
 def estruturarPlanilhaVtex():
