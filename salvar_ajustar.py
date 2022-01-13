@@ -2,7 +2,7 @@ import pandas as pd
 import xlsxwriter
 
 
-def escolherArquivo():
+def escolher_arquivo() -> str:
     """Abre uma janela para que o usuário possa escolher QUALQUER ARQUIVO."""
     import tkinter as tk
     from tkinter import filedialog
@@ -17,7 +17,7 @@ def escolherArquivo():
     return file_path
 
 
-def escolherPasta():
+def escolher_pasta() -> str:
     """Abre uma janela para que o usuário possa escolher QUALQUER ARQUIVO."""
     import tkinter as tk
     from tkinter import filedialog
@@ -25,35 +25,35 @@ def escolherPasta():
     root = tk.Tk()
     root.attributes('-topmost', 1)
     root.withdraw()
-    folderPath = filedialog.askdirectory()
-    if folderPath == '':
+    folder_path = filedialog.askdirectory()
+    if folder_path == '':
         print("Encerrando")
         return exit()
-    return folderPath
+    return folder_path
 
 
-def gerarDataFrame(file_path):
+def gerar_dataframe(file_path) -> pd.DataFrame:
     """Espera um arquivo .xls, .xlsx, .csv para converter para um pandas.DataFrame e retorná-lo"""
     # checar tipo do arquivo ou trycatch para tratar erros
-    planilha = pd.read_excel(file_path)
+    planilha = pd.read_excel(file_path, index_col=None)
     return planilha
 
 
-def salvarArquivo(planilha: pd.DataFrame, nome: str, formato: str, formatar=True):
+def salvar_arquivo_planilha(planilha: pd.DataFrame, nome: str, formato: str, formatar=True) -> None:
     """Recebe um DataFrame e nome do arquivo para salvá-lo como .xlsx. Ajusta automaticamente o tamanho das colunas.
     Index do DataFrame está setado como falso. E os campos em branco estão mantidos em branco sem alteração."""
-    caminhoDesktop = r'C:\Users\Victor\Desktop'
+    caminho_desktop = escolher_pasta()
 
-    def checarCaminho():
+    def checar_caminho() -> None:
         from os import path
-        if path.exists(caminhoDesktop):
+        if path.exists(caminho_desktop):
             pass
         else:
             print("Erro: Defina corretamente o caminho até a pasta que deseja salvar suas planilhas!\n"
                   "Encerrando.")
             exit()
 
-    checarCaminho()
+    checar_caminho()
 
     if formato == "xls":
         engine = "xlwt"
@@ -61,11 +61,11 @@ def salvarArquivo(planilha: pd.DataFrame, nome: str, formato: str, formatar=True
     else:
         formato = "xlsx"
         engine = "xlsxwriter"
-    writer = pd.ExcelWriter(rf'{caminhoDesktop}\{nome}.{formato}', engine=f'{engine}')
+    writer = pd.ExcelWriter(rf'{caminho_desktop}\{nome}.{formato}', engine=f'{engine}')
 
     # engine_kwargs={'options': {'strings_to_numbers': True}})
 
-    def ajustarColunas():
+    def ajustar_colunas() -> None:
         for column in planilha:
             column_width = max(planilha[column].astype(str).map(len).max(), len(column))
             col_idx = planilha.columns.get_loc(column)
@@ -74,7 +74,7 @@ def salvarArquivo(planilha: pd.DataFrame, nome: str, formato: str, formatar=True
     planilha.to_excel(writer, sheet_name=f'{nome}', index=False)
 
     if formatar:
-        ajustarColunas()
+        ajustar_colunas()
 
     # com engine_kwargs ele automaticamente protege a planilha inteira, setando pra modo leitura
     # verificar como desativar isso
