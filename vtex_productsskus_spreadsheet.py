@@ -113,11 +113,7 @@ class ProductsSkusSpreadsheet(VtexSpreadsheet):
             vtx_peso_real
         ) = (
             vtx_comprimento_real
-        ) = (
-            vtx_altura_real
-        ) = (
-            vtx_largura_real
-        ) = vtx_codigo_referencia_produto = []
+        ) = vtx_altura_real = vtx_largura_real = vtx_codigo_referencia_produto = []
 
         for key in self.productsku_spreadsheet_skeleton.keys():
             vtx_sku_id.append(key)
@@ -214,4 +210,6 @@ class ProductsSkusSpreadsheet(VtexSpreadsheet):
 
 if __name__ == "__main__":
     products_spreadsheet = ProductsSkusSpreadsheet(gerar_dataframe(escolher_arquivo()))
-    salvar_arquivo_planilha(products_spreadsheet.init_process()[1], products_spreadsheet.file_name, 'xls')
+    salvar_arquivo_planilha(
+        products_spreadsheet.init_process()[1], products_spreadsheet.file_name, "xls"
+    )
