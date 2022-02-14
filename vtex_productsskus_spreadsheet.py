@@ -38,6 +38,7 @@ class ProductsSkusSpreadsheet(VtexSpreadsheet):
             "Comprimento": spreadsheet_fields[6],
             "Peso": (spreadsheet_fields[7]),
             "CodFab": spreadsheet_fields[8],
+            "IdProduto": spreadsheet_fields[1],
             "Nome": spreadsheet_fields[9],
             "Descricao": spreadsheet_fields[10],
             "Meta": spreadsheet_fields[11],
@@ -59,6 +60,7 @@ class ProductsSkusSpreadsheet(VtexSpreadsheet):
             vtx_unidade_medida,
             vtx_mult_unidade,
             vtx_codigo_fabricante,
+            vtx_id_produto,
             vtx_descricao_produto,
             vtx_meta_tag_description,
             vtx_id_categoria,
@@ -68,13 +70,14 @@ class ProductsSkusSpreadsheet(VtexSpreadsheet):
             vtx_condicao_comercial,
             vtx_codigos_lojas,
             vtx_text_link,
-        ) = ([] for cont in range(18))
+        ) = ([] for cont in range(19))
 
         vtx_sku_id = vtx_codigo_referencia_sku = []
 
         vtx_titulo_site = vtx_nome_produto = []
 
-        vtx_ativar_sku_se_possivel = vtx_exibe_no_site = vtx_exibe_sem_estoque = []
+        vtx_ativar_sku_se_possivel = vtx_exibe_no_site = vtx_sku_ativo = []
+        vtx_exibe_sem_estoque = []
         # vazias
         vtx_valor_fidelidade = (
             vtx_data_previsao_chegada
@@ -114,7 +117,7 @@ class ProductsSkusSpreadsheet(VtexSpreadsheet):
             vtx_altura_real
         ) = (
             vtx_largura_real
-        ) = sku_ativo = vtx_codigo_referencia_produto = vtx_id_produto = []
+        ) = vtx_codigo_referencia_produto = []
 
         for key in self.productsku_spreadsheet_skeleton.keys():
             vtx_sku_id.append(key)
@@ -128,6 +131,9 @@ class ProductsSkusSpreadsheet(VtexSpreadsheet):
             vtx_peso.append(self.productsku_spreadsheet_skeleton[key]["Peso"])
             vtx_codigo_fabricante.append(
                 self.productsku_spreadsheet_skeleton[key]["CodFab"]
+            )
+            vtx_id_produto.append(
+                self.productsku_spreadsheet_skeleton[key]["IdProduto"]
             )
             vtx_nome_produto.append(self.productsku_spreadsheet_skeleton[key]["Nome"])
             vtx_descricao_produto.append(
@@ -143,6 +149,7 @@ class ProductsSkusSpreadsheet(VtexSpreadsheet):
             vtx_id_marca.append(self.productsku_spreadsheet_skeleton[key]["IdMarca"])
             vtx_marca.append(self.productsku_spreadsheet_skeleton[key]["Marca"])
             vtx_exibe_no_site.append("SIM")
+            vtx_exibe_sem_estoque.append("NÃO")
             vtx_condicao_comercial.append("Padrão")
             vtx_codigos_lojas.append("1")
             vtx_mult_unidade.append("1")
@@ -155,7 +162,7 @@ class ProductsSkusSpreadsheet(VtexSpreadsheet):
                 "_SkuId(Não alterável": vtx_sku_id,
                 "_NomeSku": vtx_nome_sku,
                 "_AtivarSkuSePossível": vtx_ativar_sku_se_possivel,
-                "_SkuAtivo (Não alterável)": sku_ativo,
+                "_SkuAtivo (Não alterável)": vtx_sku_ativo,
                 "_SkuEan": vtx_sku_ean,
                 "_Altura": vtx_altura,
                 "_AlturaReal": vtx_altura_real,
@@ -207,4 +214,4 @@ class ProductsSkusSpreadsheet(VtexSpreadsheet):
 
 if __name__ == "__main__":
     products_spreadsheet = ProductsSkusSpreadsheet(gerar_dataframe(escolher_arquivo()))
-    products_spreadsheet.init_process()
+    salvar_arquivo_planilha(products_spreadsheet.init_process()[1], products_spreadsheet.file_name, 'xls')
