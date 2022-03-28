@@ -114,7 +114,7 @@ class SpecificationSpreadsheet(VtexSpreadsheet):
 
 
 if __name__ == "__main__":
-    specification_spreadsheet = SpecificationSpreadsheet(
-        gerar_dataframe(escolher_arquivo())
-    )
-    specification_spreadsheet.init_process()
+    planilha = gerar_dataframe(escolher_arquivo())
+    specification_spreadsheet = SpecificationSpreadsheet(planilha)
+    spreadsheet = specification_spreadsheet.init_process()
+    salvar_arquivo_planilha(spreadsheet[1], spreadsheet[0], 'xlsx')
