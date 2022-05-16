@@ -7,6 +7,7 @@ from salvar_ajustar.salvar_ajustar import (
 )
 from vtex_spreadsheet import VtexSpreadsheet
 import requests
+from typing import List
 
 
 # --------------------- Planilha Imagens
@@ -19,9 +20,7 @@ class ImagesSpreadsheet(VtexSpreadsheet):
         super().__init__(spreadsheet)
         self.file_name = "VTEX Imagens built in Python"
 
-    def colect_data(self):
-        """Essa função recebe um DataFrame e percorre as suas linhas, iniciando o mapeamento da planilha de imagens,
-        chamando o método responsável por preencher o dicionário para estruturar a planilha de imagens."""
+    def colect_data(self) -> None:
         for index, valor in self.spreadsheet.iloc[:, 0].items():
             self.fill_lists(
                 self.spreadsheet.iloc[index, 0],  # sku
@@ -31,9 +30,7 @@ class ImagesSpreadsheet(VtexSpreadsheet):
             )
             # alterar esse tipo de identificação de coluna?
 
-    def fill_lists(self, sku: int, prd_url: str, marca: str, num_imagens: int):
-        """Cria um dicionário com SKU como chave, com os campos necessários para o preenchimento da planilha de
-        imagens"""
+    def fill_lists(self, sku: int, prd_url: str, marca: str, num_imagens: int) -> None:
         texto_imagens_aux = []
         label_imagens_aux = []
         link_imagem = []
@@ -58,9 +55,7 @@ class ImagesSpreadsheet(VtexSpreadsheet):
             "Link": link_imagem,
         }
 
-    def build_vtex_spreadsheet(self):
-        """Transforma as informações presentes no dicionário de imagens em listas para transformá-las em linhas e alimentar
-        o DataFrame."""
+    def build_vtex_spreadsheet(self) -> None:
         vtx_url, vtx_nome_imagem, vtx_texto_imagem, vtx_label, vtx_id_sku = (
             [] for _ in range(5)
         )

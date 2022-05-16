@@ -18,8 +18,6 @@ class SpecificationSpreadsheet(VtexSpreadsheet):
         self.file_name = "VTEX Espec built in Python"
 
     def colect_data(self) -> None:
-        """Essa função recebe um DataFrame e percorre as suas linhas, iniciando o mapeamento da planilha de especificações,
-        chamando o método responsável por preencher o dicionário para estruturar a planilha de especificações."""
         try:
             # utilizando o iloc para poder naver pelas linhas e colunas
             for index, valor in self.spreadsheet.iloc[:, 0].items():
@@ -48,8 +46,6 @@ class SpecificationSpreadsheet(VtexSpreadsheet):
         desc: str,
         video: str,
     ) -> None:
-        """Cria um dicionário com SKU como chave, com os campos necessários para o preenchimento da planilha de
-        imagens """
         infos = list()
         if str(inf_tec) != "nan":
             infos.append(["51", inf_tec, "Informações Técnicas"])

@@ -5,6 +5,8 @@ from salvar_ajustar.salvar_ajustar import (
     salvar_arquivo_planilha,
 )
 from vtex_spreadsheet import VtexSpreadsheet
+from verifications.verify_product_id import verify_id
+from typing import List
 
 
 # --------------------- Planilha Produtos
@@ -18,8 +20,6 @@ class ProductsSkusSpreadsheet(VtexSpreadsheet):
         self.file_name = "VTEX Produtos built in Python"
 
     def colect_data(self) -> None:
-        """Responsável por receber um dataframe, percorrer suas linhas, e iniciar o mapeamento da planilha de produtos e
-        sku """
         for index, valor in self.spreadsheet.iloc[:, 0].items():
             self.fill_lists(
                 [self.spreadsheet.iloc[index, n] for n in range(0, 21)]
@@ -27,8 +27,6 @@ class ProductsSkusSpreadsheet(VtexSpreadsheet):
             # alterar esse tipo de identificação de coluna
 
     def fill_lists(self, spreadsheet_fields):
-        """Define quais as colunas serão utilizadas para preencher o dicionário de cada produto, e seus respectivos
-        atributos."""
         sku = spreadsheet_fields[0]
         self.productsku_spreadsheet_skeleton[sku] = {
             "NomeSKU": spreadsheet_fields[2],
@@ -73,47 +71,11 @@ class ProductsSkusSpreadsheet(VtexSpreadsheet):
         ) = ([] for cont in range(19))
 
         vtx_sku_id = vtx_codigo_referencia_sku = []
-
         vtx_titulo_site = vtx_nome_produto = []
-
         vtx_ativar_sku_se_possivel = vtx_exibe_no_site = vtx_sku_ativo = []
         vtx_exibe_sem_estoque = []
-        # vazias
-        vtx_valor_fidelidade = (
-            vtx_data_previsao_chegada
-        ) = (
-            vtx_nome_complemento
-        ) = (
-            vtx_produto_ativo
-        ) = (
-            vtx_data_lancamento_produto
-        ) = (
-            vtx_palavras_chave
-        ) = (
-            vtx_id_fornecedor
-        ) = (
-            vtx_kit
-        ) = (
-            vtx_id_departamento
-        ) = (
-            vtx_nome_departamento
-        ) = (
-            vtx_peso_cubico
-        ) = (
-            vtx_acessorios
-        ) = (
-            vtx_similares
-        ) = (
-            vtx_sugestoes
-        ) = (
-            vtx_mostrar_junto
-        ) = (
-            vtx_anexos
-        ) = (
-            vtx_peso_real
-        ) = (
-            vtx_comprimento_real
-        ) = vtx_altura_real = vtx_largura_real = vtx_codigo_referencia_produto = []
+
+        empty = []
 
         for key in self.productsku_spreadsheet_skeleton.keys():
             vtx_sku_id.append(key)
@@ -150,7 +112,7 @@ class ProductsSkusSpreadsheet(VtexSpreadsheet):
             vtx_codigos_lojas.append("1")
             vtx_mult_unidade.append("1")
             vtx_unidade_medida.append("un")
-            vtx_valor_fidelidade.append("")
+            empty.append("")
             vtx_text_link.append(self.productsku_spreadsheet_skeleton[key]["URL"])
 
         data_frame_vtex = DataFrame(
@@ -161,55 +123,61 @@ class ProductsSkusSpreadsheet(VtexSpreadsheet):
                 "_SkuAtivo (Não alterável)": vtx_sku_ativo,
                 "_SkuEan": vtx_sku_ean,
                 "_Altura": vtx_altura,
-                "_AlturaReal": vtx_altura_real,
+                "_AlturaReal": empty,
                 "_Largura": vtx_largura,
-                "_LarguraReal": vtx_largura_real,
+                "_LarguraReal": empty,
                 "_Comprimento": vtx_comprimento,
-                "_ComprimentoReal": vtx_comprimento_real,
+                "_ComprimentoReal": empty,
                 "_Peso": vtx_peso,
-                "_PesoReal": vtx_peso_real,
+                "_PesoReal": empty,
                 "_UnidadeMedida": vtx_unidade_medida,
                 "_MultiplicadorUnidade": vtx_mult_unidade,
                 "_CodigoReferenciaSKU": vtx_codigo_referencia_sku,
-                "_ValorFidelidade": vtx_valor_fidelidade,
-                "_DataPrevisaoChegada": vtx_data_previsao_chegada,
+                "_ValorFidelidade": empty,
+                "_DataPrevisaoChegada": empty,
                 "_CodigoFabricante": vtx_codigo_fabricante,
                 "_IdProduto (Não alterável)": vtx_id_produto,
                 "_NomeProduto (Obrigatório)": vtx_nome_produto,
-                "_NomeComplemento": vtx_nome_complemento,
-                "_ProdutoAtivo (Não alterável)": vtx_produto_ativo,
-                "_CodigoReferenciaProduto": vtx_codigo_referencia_produto,
+                "_NomeComplemento": empty,
+                "_ProdutoAtivo (Não alterável)": empty,
+                "_CodigoReferenciaProduto": empty,
                 "_ExibeNoSite": vtx_exibe_no_site,
                 "_TextoLink (Não alterável)": vtx_text_link,
                 "_DescricaoProduto": vtx_descricao_produto,
-                "_DataLancamentoProduto": vtx_data_lancamento_produto,
-                "_PalavrasChave": vtx_palavras_chave,
+                "_DataLancamentoProduto": empty,
+                "_PalavrasChave": empty,
                 "_TituloSite": vtx_titulo_site,
                 "_MetaTagDescription": vtx_meta_tag_description,
-                "_IdFornecedor": vtx_id_fornecedor,
+                "_IdFornecedor": empty,
                 "_ExibeSemEstoque": vtx_exibe_sem_estoque,
-                "_Kit (Não Alterável)": vtx_kit,
-                "_IdDepartamento (Não alterável)": vtx_id_departamento,
-                "_NomeDepartamento": vtx_nome_departamento,
+                "_Kit (Não Alterável)": empty,
+                "_IdDepartamento (Não alterável)": empty,
+                "_NomeDepartamento": empty,
                 "_IdCategoria": vtx_id_categoria,
                 "_NomeCategoria": vtx_nome_categoria,
                 "_IdMarca": vtx_id_marca,
                 "_Marca": vtx_marca,
-                "_PesoCubico": vtx_peso_cubico,
+                "_PesoCubico": empty,
                 "_CondicaoComercial": vtx_condicao_comercial,
                 "_CodigosLojas": vtx_codigos_lojas,
-                "_Acessorios": vtx_acessorios,
-                "_Similares": vtx_similares,
-                "_Sugestoes": vtx_sugestoes,
-                "MostrarJunto": vtx_mostrar_junto,
-                "_Anexos": vtx_anexos,
+                "_Acessorios": empty,
+                "_Similares": empty,
+                "_Sugestoes": empty,
+                "MostrarJunto": empty,
+                "_Anexos": empty,
             }
         )
         return data_frame_vtex
 
+    def verifications(self, ids_list: List):
+        verify_id(ids_list)
+
 
 if __name__ == "__main__":
     products_spreadsheet = ProductsSkusSpreadsheet(gerar_dataframe(escolher_arquivo()))
+    df: DataFrame = products_spreadsheet.init_process()[1]
+    teste = products_spreadsheet.spreadsheet
+    products_spreadsheet.verifications(products_spreadsheet.spreadsheet['id'].values)
     salvar_arquivo_planilha(
-        products_spreadsheet.init_process()[1], products_spreadsheet.file_name, "xls"
+        df, products_spreadsheet.file_name, "xls"
     )
