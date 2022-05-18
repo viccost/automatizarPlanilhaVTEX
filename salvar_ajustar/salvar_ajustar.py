@@ -1,3 +1,11 @@
+"""
+Module for helps to handling excel files. As save multiple archives and
+generate dataframes.
+
+    Written by Victor Costa (victorcost_@outlook.com).
+    v1.0
+"""
+
 import pandas as pd
 import xlsxwriter
 
@@ -34,7 +42,7 @@ def escolher_pasta() -> str:
     return folder_path
 
 
-def gerar_dataframe(file_path, name_sheet=0) -> pd.DataFrame:
+def gerar_dataframe(file_path, name_sheet= 0) -> pd.DataFrame:
     """Espera um arquivo .xls, .xlsx, .csv para converter para um pandas.DataFrame e retorná-lo"""
     # checar tipo do arquivo ou trycatch para tratar erros
     planilha = pd.read_excel(file_path, index_col=None, sheet_name=name_sheet)
@@ -70,7 +78,7 @@ def salvar_arquivo_planilha(
             rf"{caminho_desktop}\{nome}.{_formato}", engine=f"{engine}"
         )
         # engine_kwargs={'options': {'strings_to_numbers': True}})
-        planilha.to_excel(writer, sheet_name=f"{nome}", index=False)
+        planilha.to_excel(excel_writer=writer, sheet_name=f"{nome}", index=False)
         try:
             writer.save()
             print(f'A planilha "{nome}" foi criada!')
@@ -86,12 +94,12 @@ def salvar_arquivo_planilha(
     return salvar()
 
 
-def salvar_planilhas(list_to_save: list):
+def salvar_planilhas(df_para_salvar: list):
     """Função para salvar uma lista de dicionarios que contenham o nome do arquivo e o dataframe a ser salvo.
 
-    :param list_to_save: list -> [{Nome: },{Dataframe: }]"""
+    :param df_para_salvar: list -> [{},{}]"""
     caminho_desktop = escolher_pasta()
-    for df in list_to_save:
+    for df in df_para_salvar:
         nome = df["Nome"]
         modelo_dataframe = df["Dataframe"]
-        salvar_arquivo_planilha(modelo_dataframe, nome, "xls", caminho_desktop)
+        salvar_arquivo_planilha(modelo_dataframe, nome, "xlsx", caminho_desktop)
