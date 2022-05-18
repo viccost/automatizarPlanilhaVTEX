@@ -19,6 +19,7 @@ class BuilderSkuSheet(ModelBuilder):
     def __init__(self, spreadsheet: DataFrame):
         super().__init__(spreadsheet)
         self.__file_name = "VTEX Produtos built in Python"
+        self.verifications(self.builded_model['_IdProduto (Não alterável)'])
 
     @property
     def filename(self):

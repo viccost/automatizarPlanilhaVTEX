@@ -20,11 +20,11 @@ class ModelBuilder:
         """This function is the first step. Must receives the dataframe and runs its rows.
             Responsible for get importants columns to the model and send the data to next step.
         """
-        @abc.abstractmethod
-        def __fill_lists(*args) -> None:
-            """Cria um dicionário com SKU como chave, com os campos necessários para o preenchimento da planilha de
-                   imagens """
-            ...
+    @abc.abstractmethod
+    def fill_lists(*args) -> None:
+        """Cria um dicionário com SKU como chave, com os campos necessários para o preenchimento da planilha de
+               imagens """
+        ...
 
     @abc.abstractmethod
     def build_vtex_spreadsheet(self) -> None:
