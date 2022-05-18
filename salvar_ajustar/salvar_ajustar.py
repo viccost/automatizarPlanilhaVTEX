@@ -78,7 +78,7 @@ def salvar_arquivo_planilha(
             rf"{caminho_desktop}\{nome}.{_formato}", engine=f"{engine}"
         )
         # engine_kwargs={'options': {'strings_to_numbers': True}})
-        planilha.to_excel(writer, sheet_name=f"{nome}", index=False)
+        planilha.to_excel(excel_writer=writer, sheet_name=f"{nome}", index=False)
         try:
             writer.save()
             print(f'A planilha "{nome}" foi criada!')

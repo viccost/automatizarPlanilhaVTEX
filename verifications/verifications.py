@@ -1,11 +1,13 @@
-"""module to verify if the first id on list of products that will be registered is the correct ID.
-    The ID must be the last one on VTEX. So the previous must be filled and next unfilled."""
+
 from api.get_product_id import get_product_id
 from tqdm import tqdm
 from typing import List
+import requests
 
 
 def verify_id(idslists: List[int]) -> None:
+    """module to verify if the first id on list of products that will be registered is the correct ID.
+    The ID must be the last one on VTEX. So the previous must be filled and next unfilled."""
     idproduct = min(idslists)
     num_ids = len(idslists)
     previousid = idproduct - 1
@@ -44,3 +46,26 @@ def verify_id(idslists: List[int]) -> None:
                       "Tem um ou mais id's dessa planilha já foram cadastrados. Melhor recomeçar\n"
                       f"PRESS ENTER\n")
                 break
+
+
+def verify_image_link(urls: list) -> List:
+    """function to verify all url status in list"""
+
+    url_status = []
+    numero_urls = len(urls)
+    print("Verificando links das imagens...")
+
+    with tqdm(total=numero_urls) as barra_progresso:
+        for i in range(numero_urls):
+            try:
+                barra_progresso.update(1)
+                url = urls[i]
+                statusCode = requests.get(url).status_code
+                if 300 > statusCode >= 200:
+                    url_status.append("Online")
+                else:
+                    url_status.append("Offline")
+            except requests.exceptions.MissingSchema:
+                url_status.append("URL Inválida")
+    print()
+    return url_status

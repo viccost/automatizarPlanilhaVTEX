@@ -5,20 +5,22 @@
     Written by Victor Costa (victorcost_@outlook.com).
     v1.0"""
 
-from default_models.vtex_specification_spreadsheet import SpecificationSpreadsheet
-from default_models.vtex_images_spreadsheet import ImagesSpreadsheet
-from default_models.vtex_productsskus_spreadsheet import ProductsSkusSpreadsheet
+from models_builders.model_builder_skus import BuilderSkuSheet
+from models_builders.model_builder_imag import BuilderImageSheet
+from models_builders.model_builder_spec import BuilderSpecSheet
+
 import salvar_ajustar.salvar_ajustar as sv
 
 if __name__ == "__main__":
     planilha = sv.gerar_dataframe(sv.escolher_arquivo())
     list_to_save = []
     dict_to_save = dict()
-    models = [ProductsSkusSpreadsheet, SpecificationSpreadsheet, ImagesSpreadsheet]
+    models = [BuilderSkuSheet, BuilderSpecSheet, BuilderImageSheet]
     for model in models:
-        file_name, spreadsheet = model(planilha).init_process()
-        dict_to_save["Nome"] = file_name
-        dict_to_save["Dataframe"] = spreadsheet
+        df = model(planilha)
+        file_name = df.filename
+        spreadsheet = df.builded_model
+        dict_to_save = {"Nome": file_name, "Dataframe": spreadsheet}
         list_to_save.append(dict_to_save.copy())
 
     sv.salvar_planilhas(list_to_save)
