@@ -1,8 +1,9 @@
+"""templates used by ModelBuilder to create VTEX's models """
+
 import pandas as pd
 
 
 class ImagesSheet:
-
     def __init__(self, list_url, list_nome_imagem, list_texto_imagem, list_label, list_sku, list_ref_sku):
         self._spreadsheet = pd.DataFrame.from_dict(
             {
@@ -22,7 +23,6 @@ class ImagesSheet:
 
 
 class SpecSheet:
-
     def __init__(self, list_id, list_nomeprd, list_idcampo, list_nomecampo, list_nometipocampo, list_idcampovalor,
                  list_nomecampovalor,
                  list_codigoespc, list_valorespec, list_codref):
@@ -48,7 +48,6 @@ class SpecSheet:
 
 
 class SkuSheet:
-
     def __init__(self, list_sku, list_nomesku, list_ativsku, list_skuativ, list_skuean, list_altu,
                  list_larg, list_compr, list_peso, list_unidmed,
                  list_multund, list_codrefsk, list_codfabr, list_idprd, list_nomeprd,
