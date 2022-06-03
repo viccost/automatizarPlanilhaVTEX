@@ -20,16 +20,18 @@ class ModelBuilder:
         """This function is the first step. Must receives the dataframe and runs its rows.
             Responsible for get importants columns to the model and send the data to next step.
         """
+        ...
+
     @abc.abstractmethod
-    def fill_lists(*args) -> None:
-        """Cria um dicionário com SKU como chave, com os campos necessários para o preenchimento da planilha de
-               imagens """
+    def fill_lists(self, *args) -> None:
+        """Cria um dicionário com SKU como chave, {SKU: {COLUMNS}} com os campos necessários para o preenchimento das
+        planilhas. Basicamente preenchendo as colunas"""
         ...
 
     @abc.abstractmethod
     def build_vtex_spreadsheet(self) -> None:
-        """Transforma as informações presentes no dicionário de imagens em listas para transformá-las em linhas e alimentar
-                o DataFrame."""
+        """Transforma as informações presentes no dicionário em listas para transformá-las em linhas e alimen
+        tar o DataFrame. Distribuindo as informações."""
         ...
 
     @abc.abstractmethod
@@ -42,4 +44,3 @@ class ModelBuilder:
         for key in self.spreadsheet.keys():
             teste = str.lower(key)
             self.spreadsheet.rename(columns={f"{key}": teste}, inplace=True)
-

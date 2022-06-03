@@ -102,4 +102,4 @@ def salvar_planilhas(df_para_salvar: list):
     for df in df_para_salvar:
         nome = df["Nome"]
         modelo_dataframe = df["Dataframe"]
-        salvar_arquivo_planilha(modelo_dataframe, nome, "xlsx", caminho_desktop)
+        salvar_arquivo_planilha(modelo_dataframe, nome, "xls", caminho_desktop)
